@@ -32,7 +32,7 @@ public class User {
 		return name;
 	}
 
-	public String setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -40,7 +40,7 @@ public class User {
 		return cellphoneNumber;
 	}
 
-	public void setCellphoneNUmber(String cellphoneNumber) {
+	public void setCellphoneNumber(String cellphoneNumber) {
 		this.cellphoneNumber = cellphoneNumber;
 	}
 }

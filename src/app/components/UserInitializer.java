@@ -33,10 +33,10 @@ public class UserInitializer {
 		}
 	}
 	
-	public Quote makeUser(String name, String cellphoneNumber) {
+	public User makeUser(String name, String cellphoneNumber) {
 		User u = new User();
 		u.setName(name);
-		u.setCellphoneNumber(cellphoneNumber)
+		u.setCellphoneNumber(cellphoneNumber);
 		return u;
 	}
 }
