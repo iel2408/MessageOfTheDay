@@ -4,9 +4,8 @@ public class QuoteDTO {
 	private String category;
 	private String message;
 
-	public QuoteDTO(String category, String message) {
+	public QuoteDTO(String category) {
 		this.category = category;
-		this.message = message;
 	}
 
 	public String getCategory() {

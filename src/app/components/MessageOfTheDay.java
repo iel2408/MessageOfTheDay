@@ -1,7 +1,6 @@
-// THIS SHIT IS COPY PASTED
+// TO BE EDITED
 
 package app.components;
-
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,21 +18,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MessageOfTheDay {
 	
 	@Autowired
-	private UserRepository uRepo;
+	private UserRepository userRepo;
 	
 	private MessageRequest request;
 	
 
 	public String getMessageOfTheDay(Long pk, String category) throws Exception
 	{
-        //User user = uRepo.findByPk(pk);
-        
-        QuoteDto qDto = new QuoteDto();
-        qDto.setCategory(category);
-        
-        Call<QuoteDto> call = request.getQuote(qDto);
-        Response<QuoteDto> response = call.execute();
-        QuoteDto quote = response.body();
+//        QuoteDTO qDto = new QuoteDTO();
+//        qDto.setCategory(category);
+		
+		QuoteDTO q = new QuoteDTO(category);
+        Call<QuoteDTO> call = request.getQuote(q);
+        Response<QuoteDTO> response = call.execute();
+        QuoteDTO quote = response.body();
         
         return quote.getMessage();
 	}
