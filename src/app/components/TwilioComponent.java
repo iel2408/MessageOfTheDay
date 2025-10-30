@@ -2,7 +2,7 @@ package app.components;
 
 import java.util.Base64;
 import org.springframework.stereotype.Component;
-import app.entities.TwilioReply;
+import app.rest.controllers.TwilioReplyDTO;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -18,9 +18,7 @@ public class TwilioComponent {
     
     private final String url = "https://api.twilio.com/2010-04-01/Accounts/AC6aef1f2addc6e3c109f2907a065e1c8b/Messages.json";
 
-    // add a new parameter that takes in message
-    // should be message, cpnumber
-    public TwilioReply sendSMS(String name, String quote, String cpNumber) throws Exception {
+    public TwilioReplyDTO sendSMS(String message, String cellnumber) throws Exception {
         
     	Retrofit retrofit = new Retrofit.Builder()
 	               .baseUrl("http://localhost:8080")
@@ -31,8 +29,6 @@ public class TwilioComponent {
 		final String authorization = "Basic " + new String(encodedAuth);
 		
 		TwilioRequests req = retrofit.create(TwilioRequests.class);
-    	
-    	String message = "Hello " + name + ", " + quote;
     	
 		Call<ResponseBody> call = req.testSMS("+18144849468", 	
 								msgsid,
@@ -47,14 +43,12 @@ public class TwilioComponent {
         if (resp.code() == 201) 
         {
         	System.out.println(resp.body().string());
-        	return new TwilioReply(name, message);
+        	return new TwilioReplyDTO(cellnumber, message);
         }
         else 
         {
         	System.out.println(resp.errorBody().string());
-        	return new TwilioReply(name, "Failed to send message");
+        	return new TwilioReplyDTO(cellnumber, "Failed to send message");
         }
     }
-
-
 }

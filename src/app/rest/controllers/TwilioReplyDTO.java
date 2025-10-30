@@ -1,13 +1,13 @@
-package app.entities;
+package app.rest.controllers;
 
-public class TwilioReply {
+public class TwilioReplyDTO {
     
 	private String user;
     private String message;
 
-    public TwilioReply() {}
+    public TwilioReplyDTO() {}
 
-    public TwilioReply(String user, String message) {
+    public TwilioReplyDTO(String user, String message) {
         this.user = user;
         this.message = message;
     }

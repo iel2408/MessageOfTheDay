@@ -13,28 +13,20 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import app.rest.controllers.TwilioReplyDTO;
+ 
 
 @Component
-public class MessageOfTheDay {
+public class MessageOfTheDayComponent {
 	
 	@Autowired
 	private UserRepository userRepo;
 	
+	@Autowired
+    private TwilioComponent twilioComponent;
+	
 	private MessageRequest request;
 	
-
-	public String getMessageOfTheDay(Long pk, String category) throws Exception
-	{
-//        QuoteDTO qDto = new QuoteDTO();
-//        qDto.setCategory(category);
-		
-		QuoteDTO q = new QuoteDTO(category);
-        Call<QuoteDTO> call = request.getQuote(q);
-        Response<QuoteDTO> response = call.execute();
-        QuoteDTO quote = response.body();
-        
-        return quote.getMessage();
-	}
 	
 	@PostConstruct
 	public void init() throws Exception
@@ -44,10 +36,32 @@ public class MessageOfTheDay {
 				.create();
 		
 		Retrofit retrofit = new Retrofit.Builder()
-				.baseUrl("http://localhost:8080")
+				.baseUrl("http://localhost:9999/")				
 				.addConverterFactory(GsonConverterFactory.create(gson))
 				.build();
 		
-		request = retrofit.create(MessageRequest.class);
-	}	
+		request= retrofit.create(MessageRequest.class);
+	}
+	
+
+
+	public TwilioReplyDTO sendMessage(Long pk, String category) throws Exception
+	{
+		User user = userRepo.findByPk(pk);
+		if (user == null) {
+	        throw new IllegalArgumentException("User not found for id " + pk);
+	    }
+
+		QuoteDTO q = new QuoteDTO(category);
+		Call<QuoteDTO> call = request.getQuote(q);
+		Response<QuoteDTO> response = call.execute();
+		
+		QuoteDTO quote = response.body();
+		
+		String message = "Hello " + user.getName() + ", " + quote.getMessage();
+		
+        TwilioReplyDTO reply = twilioComponent.sendSMS(message, user.getCellphoneNumber());
+        return reply;
+        
+	}
 }
