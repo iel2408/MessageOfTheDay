@@ -1,5 +1,3 @@
-// TO BE EDITED
-
 package app.components;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +58,7 @@ public class MessageOfTheDayComponent {
 		
 		String message = "Hello " + user.getName() + ", " + quote.getMessage();
 		
-        TwilioReplyDTO reply = twilioComponent.sendSMS(message, user.getCellphoneNumber());
+        TwilioReplyDTO reply = twilioComponent.sendSMS(message, user.getName());
         return reply;
         
 	}
